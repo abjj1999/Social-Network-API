@@ -1,5 +1,12 @@
 # Social-Network-API
 
+<p align="center">
+    <img src="https://img.shields.io/github/repo-size/abjj1999/social-network-api" />
+    <img src="https://img.shields.io/github/languages/top/abjj1999/social-network-api"  />
+    <img src="https://img.shields.io/github/issues/abjj1999/social-network-api" />
+    <img src="https://img.shields.io/github/last-commit/abjj1999/social-network-api" >
+    <a href="https://github.com/abjj1999"><img src="https://img.shields.io/github/followers/abjj1999?style=social" target="_blank" /></a>
+</p>
 
 ## Description
 A REST API for a social media app. Built with Express, Mongoose, and MongoDB.
