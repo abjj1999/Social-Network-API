@@ -8,22 +8,21 @@
     <a href="https://github.com/abjj1999"><img src="https://img.shields.io/github/followers/abjj1999?style=social" target="_blank" /></a>
 </p>
 
-## Description
-A REST API for a social media app. Built with Express, Mongoose, and MongoDB.
 
 ## User Story
-As a social media startup, I want an API for my social network that uses a NoSQL database so that my website can handle large amounts of unstructured data.
+    `AS A social media startup
+    I WANT an API for my social network that uses a NoSQL database
+    SO THAT my website can handle large amounts of unstructured data`
 
 ## Packages
 - express
-- moment
 - mongoose
 
 ## Usage
-1. Install MongoDB ( follow the instructions on the [MongoDB Website](https://docs.mongodb.com/manual/installation/))
+1. Install MongoDB
 2. Clone the repo
 3. Install dependencies with `npm -i`
-4. Run `npm start` to run the server and make the API live
+4. Run `npm start` to run the server
 5. Use your browser or an app like [Insomnia](https://insomnia.rest/) to test the REST API.
 
 ## Models

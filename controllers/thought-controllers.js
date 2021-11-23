@@ -1,7 +1,6 @@
 const { Thought, User } = require('../models')
 
 const thoughtController = {
-     // GET /api/thoughts
      getAllThoughts(req, res) {
         Thought.find({})
         .populate({ path: 'reactions', select: '-__v' })
@@ -30,7 +29,7 @@ const thoughtController = {
             res.status(400).json(err);
         });
     },
-    createThought({ body }, res) {
+    addThought({ body }, res) {
         Thought.create(body)
         .then(dbThoughtData => {
             User.findOneAndUpdate(
@@ -66,34 +65,23 @@ const thoughtController = {
     },
 
 
-    // DELETE /api/thoughts/:id
     deleteThought({ params }, res) {
-        // delete the thought
         Thought.findOneAndDelete({ _id: params.id })
         .then(dbThoughtData => {
             if (!dbThoughtData) {
-                res.status(404).json({ message: 'No thought found with this id'});
+                res.status(404).json({ message: 'No thought found with this id!' });
                 return;
             }
-            // delete the reference to deleted thought in user's thought array
-            User.findOneAndUpdate(
-                { username: dbThoughtData.username },
-                { $pull: { thoughts: params.id } }
-            )
-            .then(() => {
-                res.json({message: 'Successfully deleted the thought'});
-            })
-            .catch(err => res.status(500).json(err));
+            res.json(dbThoughtData);
         })
-        .catch(err => res.status(500).json(err));
+        .catch(err => res.status(400).json(err))
     },
 
-    // POST /api/thoughts/:id/reactions
     addReaction({ params, body }, res) {
         Thought.findOneAndUpdate(
             { _id: params.thoughtId },
-            { $addToSet: { reactions: body } },
-            { new: true, runValidators: true }
+            { $pull: { reactions: body } },
+            { new: true }
         )
         .then(dbThoughtData => {
             if (!dbThoughtData) {
@@ -102,28 +90,17 @@ const thoughtController = {
             }
             res.json(dbThoughtData);
         })
-        .catch(err => res.status(500).json(err));
+        .catch(err => res.json(err));
     },
 
-    // DELETE /api/thoughts/:id/reactions
-    // expected body should include at least one of the following attributes:
-    // {
-    //     "reactionId": "baz"  // should be a reactionId in the specified Thought instance
-    // }
     deleteReaction({ params, body }, res) {
         Thought.findOneAndUpdate(
             { _id: params.thoughtId },
             { $pull: { reactions: { reactionId: body.reactionId } } },
-            { new: true, runValidators: true }
+            { new: true }
         )
-        .then(dbThoughtData => {
-            if (!dbThoughtData) {
-                res.status(404).json({ message: 'No thought found with this id' });
-                return;
-            }
-            res.json({message: 'Successfully deleted the reaction'});
-        })
-        .catch(err => res.status(500).json(err));
+        .then(dbThoughtData => res.json(dbThoughtData))
+        .catch(err => res.json(err));
     },
 }
 
